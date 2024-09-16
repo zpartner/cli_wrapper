@@ -1,0 +1,16 @@
+---
+applications:
+- name: cliwrapper
+  path: ./  # Keep the current path
+  memory: 512M  # Adjust memory based on your requirements
+  disk_quota: 2G  # Increase disk space to handle npm packages
+  stack: cflinuxfs4  # Keep the current stack
+  buildpacks:
+    - python_buildpack
+    - nodejs_buildpack  # Include Node.js for npm to work
+  command: npm install @sap/datasphere-cli && echo "Datasphere CLI installed" && ./node_modules/.bin/datasphere --version && echo "Datasphere version printed" && uvicorn app:app --reload --host 0.0.0.0 --port $PORT
+  env:
+    NODE_ENV: development  # Explicitly setting NODE_ENV to avoid the warning
+  services: 
+    - python_dest_service
+
